@@ -17,10 +17,6 @@ services:
     volumes:
       - ./wp-content/plugins:/var/www/html/wp-content/uploads
       - ./wp-content/plugins:/var/www/html/wp-content/plugins
-      - ./wp-content/themes/mintz:/var/www/html/wp-content/themes/mintz
-      - ./wp-content/themes/Mintz WPtemplete:/var/www/html/wp-content/themes/Mintz WPtemplete
-      - ./wp-content/themes/Mintz_WPtemplete-ver_002:/var/www/html/wp-content/themes/Mintz_WPtemplete-ver_002
-      - ./wp-content/themes/point:/var/www/html/wp-content/themes/point
   mysql:
     image: mysql:5.7
     ports:
