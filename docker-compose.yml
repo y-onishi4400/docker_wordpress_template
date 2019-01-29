@@ -1,1 +1,39 @@
-version: '3'services:  wordpress:    image: wordpress    ports:      - 80:80    restart: always    environment:      WORDPRESS_DB_HOST: mysql:3306      WORDPRESS_DB_USER: wp_user      WORDPRESS_DB_PASSWORD: wp_pass    depends_on:      - mysql    volumes:      - ./themes/template:/var/www/html/wp-content/themes/template  mysql:    image: mysql:5.7    volumes:      - ./.data/db:/var/lib/mysql    restart: always    environment:      MYSQL_ROOT_PASSWORD: sample      MYSQL_DATABASE: wordpress      MYSQL_USER: wp_user      MYSQL_PASSWORD: wp_pass
+version: '3'
+
+services:
+  wordpress:
+    image: wordpress
+    ports:
+      - 80:80
+    restart: always
+    environment:
+      WORDPRESS_DB_HOST: mysql:3306
+      WORDPRESS_DB_USER: wp_user
+      WORDPRESS_DB_PASSWORD: wp_pass
+    depends_on:
+      - mysql
+    links:
+      - mysql
+    volumes:
+      - ./wp-content/plugins:/var/www/html/wp-content/uploads
+      - ./wp-content/plugins:/var/www/html/wp-content/plugins
+      - ./wp-content/themes/mintz:/var/www/html/wp-content/themes/mintz
+      - ./wp-content/themes/Mintz WPtemplete:/var/www/html/wp-content/themes/Mintz WPtemplete
+      - ./wp-content/themes/Mintz_WPtemplete-ver_002:/var/www/html/wp-content/themes/Mintz_WPtemplete-ver_002
+      - ./wp-content/themes/point:/var/www/html/wp-content/themes/point
+  mysql:
+    image: mysql:5.7
+    ports:
+      - 3306:80
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: sample
+      MYSQL_DATABASE: wordpress
+      MYSQL_USER: wp_user
+      MYSQL_PASSWORD: wp_pass
+    volumes:
+      - db-data:/var/lib/mysql
+      - ./db-data:/docker-entrypoint-initdb.d
+volumes:
+  db-data:
+    driver: local
